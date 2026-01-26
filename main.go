@@ -20,9 +20,10 @@ func main() {
 	}
 	fmt.Printf("Input:  %s (%.2f MB)\n", config.InputFile, inputSize)
 
-	// Excel 내보내기 처리
+	// Excel 모드: Excel 파일로 내보내기
 	if config.ExportExcel {
-		if err := io.WriteExcel(config.OutputFile, data); err != nil {
+		excelData := processor.PrepareExcelData(data)
+		if err := io.WriteExcel(config.OutputFile, excelData); err != nil {
 			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 			os.Exit(1)
 		}
