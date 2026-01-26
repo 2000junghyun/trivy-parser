@@ -1,0 +1,125 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2026-01-26T13:35:22.335407+09:00",
+  "ArtifactName": "storage/project1/mr-123",
+  "ArtifactType": "filesystem",
+  "SeveritySummary": {
+    "CRITICAL": 1,
+    "HIGH": 3,
+    "MEDIUM": 0,
+    "LOW": 1
+  },
+  "Results": [
+    {
+      "Target": "ec2.tf",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 0,
+        "Failures": 5
+      },
+      "Misconfigurations": [
+        {
+          "ID": "AVD-AWS-0028",
+          "Title": "aws_instance should activate session tokens for Instance Metadata Service.",
+          "Description": "IMDS v2 (Instance Metadata Service) introduced session authentication tokens which improve security when talking to IMDS.\n\nBy default \u003ccode\u003eaws_instance\u003c/code\u003e resource sets IMDS session auth tokens to be optional.\n\nTo fully protect IMDS you need to enable session tokens by using \u003ccode\u003emetadata_options\u003c/code\u003e block and its \u003ccode\u003ehttp_tokens\u003c/code\u003e variable set to \u003ccode\u003erequired\u003c/code\u003e.\n",
+          "Namespace": "builtin.aws.ec2.aws0028",
+          "Resolution": "Enable HTTP token requirement for IMDS",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-aws-0028",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_instance.web_server",
+              "Provider": "AWS",
+              "Service": "ec2",
+              "StartLine": 9,
+              "EndLine": 9,
+              "Message": "Instance does not require IMDS access to require a token."
+            }
+          ]
+        },
+        {
+          "ID": "aws-autoscaling-no-public-ip",
+          "Title": "User data for EC2 instances must not contain sensitive AWS keys",
+          "Description": "EC2 instance data is used to pass start up information into the EC2 instance. This userdata must not contain access key credentials. Instead use an IAM Instance Profile assigned to the instance to grant access to other AWS Services.\n",
+          "Namespace": "builtin.aws.ec2.aws0029",
+          "Resolution": "Remove sensitive data from the EC2 instance user-data",
+          "Severity": "CRITICAL",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/aws-autoscaling-no-public-ip",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_instance.web_server",
+              "Provider": "AWS",
+              "Service": "ec2",
+              "StartLine": 29,
+              "EndLine": 34,
+              "Message": "Sensitive data found in instance user data: Password literal text"
+            }
+          ]
+        },
+        {
+          "ID": "AVD-AWS-0131",
+          "Title": "Instance with unencrypted block device.",
+          "Description": "Block devices should be encrypted to ensure sensitive data is held securely at rest.\n",
+          "Namespace": "builtin.aws.ec2.aws0131",
+          "Resolution": "Turn on encryption for all block devices",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-aws-0131",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_instance.web_server",
+              "Provider": "AWS",
+              "Service": "ec2",
+              "StartLine": 19,
+              "EndLine": 19,
+              "Message": "Root block device is not encrypted."
+            }
+          ]
+        },
+        {
+          "ID": "aws-ebs-enable-volume-encryption",
+          "Title": "EBS volumes must be encrypted",
+          "Description": "By enabling encryption on EBS volumes you protect the volume, the disk I/O and any derived snapshots from compromise if intercepted.\n",
+          "Namespace": "builtin.aws.ec2.aws0026",
+          "Resolution": "Enable encryption of EBS volumes",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/aws-ebs-enable-volume-encryption",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_ebs_volume.unencrypted_volume",
+              "Provider": "AWS",
+              "Service": "ec2",
+              "StartLine": 45,
+              "EndLine": 45,
+              "Message": "EBS volume is not encrypted."
+            }
+          ]
+        },
+        {
+          "ID": "aws-ebs-encryption-customer-key",
+          "Title": "EBS volume encryption should use Customer Managed Keys",
+          "Description": "Encryption using AWS keys provides protection for your EBS volume. To increase control of the encryption and manage factors like rotation use customer managed keys.\n",
+          "Namespace": "builtin.aws.ec2.aws0027",
+          "Resolution": "Enable encryption using customer managed keys",
+          "Severity": "LOW",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/aws-ebs-encryption-customer-key",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_ebs_volume.unencrypted_volume",
+              "Provider": "AWS",
+              "Service": "ec2",
+              "StartLine": 42,
+              "EndLine": 50,
+              "Message": "EBS volume does not use a customer-managed KMS key."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2026-01-26T13:35:22.335407+09:00",
+  "ArtifactName": "storage/project1/mr-123",
+  "ArtifactType": "filesystem",
+  "SeveritySummary": {
+    "CRITICAL": 1,
+    "HIGH": 1,
+    "MEDIUM": 1,
+    "LOW": 1
+  },
+  "Results": [
+    {
+      "Target": "main.tf",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 0,
+        "Failures": 4
+      },
+      "Misconfigurations": [
+        {
+          "ID": "USER-S3-001",
+          "Title": "S3 버킷은 모든 퍼블릭 액세스 차단 필요",
+          "Description": "S3 버킷은 퍼블릭 액세스를 차단하여 데이터 유출을 방지해야 합니다.\n퍼블릭 ACL과 퍼블릭 정책을 모두 차단해야 합니다.\n퍼블릭 액세스가 허용되면 민감한 데이터가 인터넷에 노출될 수 있습니다.\n",
+          "Namespace": "user.aws.s3.s3001",
+          "Resolution": "S3 버킷에 퍼블릭 액세스 차단 활성화",
+          "Severity": "CRITICAL",
+          "PrimaryURL": "https://wiki.kabang.io/display/SSTVULN/%5BS3-001%5D+S3+Bucket",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_s3_bucket.unencrypted_bucket",
+              "Provider": "AWS",
+              "Service": "s3",
+              "StartLine": 39,
+              "EndLine": 46,
+              "Message": "S3 버킷에 퍼블릭 액세스 차단이 설정되어 있지 않습니다"
+            },
+            {
+              "Resource": "aws_s3_bucket_public_access_block.public_bucket",
+              "Provider": "AWS",
+              "Service": "s3",
+              "StartLine": 28,
+              "EndLine": 36,
+              "Message": "S3 버킷의 퍼블릭 액세스 차단이 완전하지 않습니다"
+            }
+          ]
+        },
+        {
+          "ID": "USER-S3-002",
+          "Title": "S3 버킷은 버전 관리 활성화 필요",
+          "Description": "중요 정보를 포함하는 S3 버킷은 버전 관리를 활성화해야 합니다.\n버전 관리는 실수로 인한 삭제나 악의적인 수정으로부터 데이터를 보호합니다.\n모든 객체의 변경 이력을 추적하여 이전 버전으로 복원할 수 있습니다.\n",
+          "Namespace": "user.aws.s3.s3002",
+          "Resolution": "S3 버킷에 버전 관리 활성화",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://wiki.kabang.io/display/SSTVULN/%5BS3-002%5D+S3+Bucket",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_s3_bucket.public_bucket",
+              "Provider": "AWS",
+              "Service": "s3",
+              "StartLine": 19,
+              "EndLine": 26,
+              "Message": "S3 버킷에 버전 관리가 활성화되어 있지 않습니다"
+            },
+            {
+              "Resource": "aws_s3_bucket.unencrypted_bucket",
+              "Provider": "AWS",
+              "Service": "s3",
+              "StartLine": 39,
+              "EndLine": 46,
+              "Message": "S3 버킷에 버전 관리가 활성화되어 있지 않습니다"
+            }
+          ]
+        },
+        {
+          "ID": "USER-S3-003",
+          "Title": "S3 버킷은 서버 측 암호화 활성화 필요",
+          "Description": "모든 S3 버킷 객체는 서버 측 암호화를 사용하여 저장되어야 합니다.\n민감한 데이터(개인정보, 금융정보)는 AWS KMS 고객 관리형 키(CMK)를 사용해야 합니다.\n암호화되지 않은 데이터는 물리적 액세스 시 데이터 유출 위험이 있습니다.\n",
+          "Namespace": "user.aws.s3.s3003",
+          "Resolution": "S3 버킷에 서버 측 암호화 활성화",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://wiki.kabang.io/display/SSTVULN/%5BS3-003%5D+S3+Bucket",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_s3_bucket.public_bucket",
+              "Provider": "AWS",
+              "Service": "s3",
+              "StartLine": 19,
+              "EndLine": 26,
+              "Message": "S3 버킷에 서버 측 암호화가 활성화되어 있지 않습니다"
+            },
+            {
+              "Resource": "aws_s3_bucket.unencrypted_bucket",
+              "Provider": "AWS",
+              "Service": "s3",
+              "StartLine": 39,
+              "EndLine": 46,
+              "Message": "S3 버킷에 서버 측 암호화가 활성화되어 있지 않습니다"
+            }
+          ]
+        },
+        {
+          "ID": "USER-S3-004",
+          "Title": "S3 버킷은 라이프사이클 정책 설정 필요",
+          "Description": "S3 버킷은 라이프사이클 정책을 통해 객체 보관 주기를 관리해야 합니다.\n라이프사이클 규칙은 스토리지 비용 절감 및 규정 준수 요구사항 충족에 필수적입니다.\n오래된 데이터를 자동으로 다른 스토리지 클래스로 전환하거나 삭제할 수 있습니다.\n",
+          "Namespace": "user.aws.s3.s3004",
+          "Resolution": "S3 버킷에 라이프사이클 정책 설정",
+          "Severity": "LOW",
+          "PrimaryURL": "https://wiki.kabang.io/display/SSTVULN/%5BS3-004%5D+S3+Bucket",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_s3_bucket.public_bucket",
+              "Provider": "AWS",
+              "Service": "s3",
+              "StartLine": 19,
+              "EndLine": 26,
+              "Message": "S3 버킷에 활성화된 라이프사이클 정책이 설정되어 있지 않습니다"
+            },
+            {
+              "Resource": "aws_s3_bucket.unencrypted_bucket",
+              "Provider": "AWS",
+              "Service": "s3",
+              "StartLine": 39,
+              "EndLine": 46,
+              "Message": "S3 버킷에 활성화된 라이프사이클 정책이 설정되어 있지 않습니다"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
