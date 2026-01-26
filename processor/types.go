@@ -145,9 +145,18 @@ type GroupedResult struct {
 }
 
 type GroupedTrivyResult struct {
-	SchemaVersion int             `json:"SchemaVersion"`
-	CreatedAt     string          `json:"CreatedAt"`
-	ArtifactName  string          `json:"ArtifactName"`
-	ArtifactType  string          `json:"ArtifactType"`
-	Results       []GroupedResult `json:"Results"`
+	SchemaVersion   int              `json:"SchemaVersion"`
+	CreatedAt       string           `json:"CreatedAt"`
+	ArtifactName    string           `json:"ArtifactName"`
+	ArtifactType    string           `json:"ArtifactType"`
+	SeveritySummary *SeveritySummary `json:"SeveritySummary,omitempty"`
+	Results         []GroupedResult  `json:"Results"`
+}
+
+// SeveritySummary는 심각도별 검출 개수를 나타냅니다.
+type SeveritySummary struct {
+	Critical int `json:"CRITICAL"`
+	High     int `json:"HIGH"`
+	Medium   int `json:"MEDIUM"`
+	Low      int `json:"LOW"`
 }

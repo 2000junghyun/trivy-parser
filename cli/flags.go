@@ -12,7 +12,9 @@ type Config struct {
 	OutputFile    string
 	RemoveCode    bool
 	GroupByPolicy bool
+	SplitByTarget bool
 	Pretty        bool
+	ExportCSV     bool
 }
 
 // ParseFlags는 커맨드 라인 플래그를 파싱하고 검증합니다.
@@ -22,8 +24,10 @@ func ParseFlags() *Config {
 	flag.StringVar(&config.InputFile, "input", "", "입력 JSON 파일 경로 (필수)")
 	flag.StringVar(&config.OutputFile, "output", "", "출력 JSON 파일 경로 (필수)")
 	flag.BoolVar(&config.RemoveCode, "remove-code", true, "Code 필드 제거 (기본값: true)")
-	flag.BoolVar(&config.GroupByPolicy, "group-by-policy", false, "정책별로 그룹화하여 중복 제거")
+	flag.BoolVar(&config.GroupByPolicy, "grouped", false, "정책별로 그룹화하여 중복 제거")
+	flag.BoolVar(&config.SplitByTarget, "splitted", false, "타겟별로 파일 분리 (grouped와 함께 사용)")
 	flag.BoolVar(&config.Pretty, "pretty", false, "JSON 포맷팅 (들여쓰기)")
+	flag.BoolVar(&config.ExportCSV, "excel", false, "Excel 파일로 내보내기 (Custom/Built-in 시트 분리)")
 
 	flag.Parse()
 
@@ -49,5 +53,11 @@ func printUsage() {
 	fmt.Println("  parser -input result-raw.json -output result-filtered.json -pretty")
 	fmt.Println()
 	fmt.Println("  # 정책별로 그룹화 (중복 제거)")
-	fmt.Println("  parser -input result-raw.json -output result-grouped.json -group-by-policy -pretty")
+	fmt.Println("  parser -input result-raw.json -output result-grouped.json -grouped -pretty")
+	fmt.Println()
+	fmt.Println("  # 정책별 그룹화 + 타겟별 파일 분리")
+	fmt.Println("  parser -input result-raw.json -output result-grouped.json -grouped -splitted -pretty")
+	fmt.Println()
+	fmt.Println("  # Excel 파일로 내보내기 (Custom/Built-in 시트 분리)")
+	fmt.Println("  parser -input result-raw.json -output result.xlsx -excel")
 }
