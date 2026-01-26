@@ -1,0 +1,145 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2026-01-26T13:35:22.335407+09:00",
+  "ArtifactName": "storage/project1/mr-123",
+  "ArtifactType": "filesystem",
+  "SeveritySummary": {
+    "CRITICAL": 0,
+    "HIGH": 0,
+    "MEDIUM": 6,
+    "LOW": 0
+  },
+  "Results": [
+    {
+      "Target": "iam.tf",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 0,
+        "Failures": 6
+      },
+      "Misconfigurations": [
+        {
+          "ID": "AVD-AWS-0058",
+          "Title": "IAM Password policy should have requirement for at least one lowercase character.",
+          "Description": "IAM account password policies should ensure that passwords content including at least one lowercase character.\n",
+          "Namespace": "builtin.aws.iam.aws0058",
+          "Resolution": "Enforce longer, more complex passwords in the policy",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-aws-0058",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_iam_account_password_policy.weak",
+              "Provider": "AWS",
+              "Service": "iam",
+              "StartLine": 45,
+              "EndLine": 45,
+              "Message": "Password policy does not require lowercase characters"
+            }
+          ]
+        },
+        {
+          "ID": "AVD-AWS-0059",
+          "Title": "IAM Password policy should have requirement for at least one number in the password.",
+          "Description": "IAM account password policies should ensure that passwords content including at least one number.\n",
+          "Namespace": "builtin.aws.iam.aws0059",
+          "Resolution": "Enforce longer, more complex passwords in the policy",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-aws-0059",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_iam_account_password_policy.weak",
+              "Provider": "AWS",
+              "Service": "iam",
+              "StartLine": 46,
+              "EndLine": 46,
+              "Message": "Password policy does not require numbers."
+            }
+          ]
+        },
+        {
+          "ID": "AVD-AWS-0060",
+          "Title": "IAM Password policy should have requirement for at least one symbol in the password.",
+          "Description": "IAM account password policies should ensure that passwords content including a symbol.\n",
+          "Namespace": "builtin.aws.iam.aws0060",
+          "Resolution": "Enforce longer, more complex passwords in the policy",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-aws-0060",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_iam_account_password_policy.weak",
+              "Provider": "AWS",
+              "Service": "iam",
+              "StartLine": 48,
+              "EndLine": 48,
+              "Message": "Password policy does not require symbols."
+            }
+          ]
+        },
+        {
+          "ID": "AVD-AWS-0061",
+          "Title": "IAM Password policy should have requirement for at least one uppercase character.",
+          "Description": ",\n\nIAM account password policies should ensure that passwords content including at least one uppercase character.\n",
+          "Namespace": "builtin.aws.iam.aws0061",
+          "Resolution": "Enforce longer, more complex passwords in the policy",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-aws-0061",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_iam_account_password_policy.weak",
+              "Provider": "AWS",
+              "Service": "iam",
+              "StartLine": 47,
+              "EndLine": 47,
+              "Message": "Password policy does not require uppercase characters."
+            }
+          ]
+        },
+        {
+          "ID": "AVD-AWS-0063",
+          "Title": "IAM Password policy should have minimum password length of 14 or more characters.",
+          "Description": "IAM account password policies should ensure that passwords have a minimum length.\n\nThe account password policy should be set to enforce minimum password length of at least 14 characters.\n",
+          "Namespace": "builtin.aws.iam.aws0063",
+          "Resolution": "Enforce longer, more complex passwords in the policy",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-aws-0063",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_iam_account_password_policy.weak",
+              "Provider": "AWS",
+              "Service": "iam",
+              "StartLine": 44,
+              "EndLine": 44,
+              "Message": "Password policy allows a maximum password age of greater than 90 days"
+            }
+          ]
+        },
+        {
+          "ID": "AVD-AWS-0056",
+          "Title": "IAM Password policy should prevent password reuse.",
+          "Description": "IAM account password policies should prevent the reuse of passwords.\n\nThe account password policy should be set to prevent using any of the last five used passwords.\n",
+          "Namespace": "builtin.aws.iam.aws0056",
+          "Resolution": "Prevent password reuse in the policy",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-aws-0056",
+          "Status": "FAIL",
+          "Violations": [
+            {
+              "Resource": "aws_iam_account_password_policy.weak",
+              "Provider": "AWS",
+              "Service": "iam",
+              "StartLine": 43,
+              "EndLine": 52,
+              "Message": "Password policy allows reuse of recent passwords."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

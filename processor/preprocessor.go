@@ -8,7 +8,7 @@ import (
 // Preprocess는 Trivy 스캔 결과를 그룹화하고 타겟별로 분리하는 전처리를 수행합니다.
 // 1. 동일한 정책 ID의 misconfiguration들을 그룹화
 // 2. 타겟(.tf 파일)별로 분리
-// 3. Trivy 기본 정책([TV])과 커스텀 정책([KB])으로 구분
+// 3. Trivy 기본 정책(builtin-)과 커스텀 정책(custom-)으로 구분
 // 4. 각 타겟별로 심각도 요약 계산
 func Preprocess(input *TrivyResult) map[string]*GroupedTrivyResult {
 	// 1단계: 정책별 그룹화
@@ -124,9 +124,9 @@ func splitByTargetInternal(input *GroupedTrivyResult) map[string]*GroupedTrivyRe
 			}
 		}
 
-		// Trivy 기본 정책 결과 저장 (TV prefix)
+		// Trivy 기본 정책 결과 저장 (builtin- prefix)
 		if len(trivyMisconfigs) > 0 {
-			trivyKey := "[TV]" + result.Target
+			trivyKey := "builtin-" + result.Target
 			if _, exists := targetMap[trivyKey]; !exists {
 				targetMap[trivyKey] = &GroupedTrivyResult{
 					SchemaVersion:   input.SchemaVersion,
@@ -144,9 +144,9 @@ func splitByTargetInternal(input *GroupedTrivyResult) map[string]*GroupedTrivyRe
 			targetMap[trivyKey].Results = append(targetMap[trivyKey].Results, trivyResult)
 		}
 
-		// 커스텀 정책 결과 저장 (KB prefix)
+		// 커스텀 정책 결과 저장 (custom- prefix)
 		if len(customMisconfigs) > 0 {
-			customKey := "[KB]" + result.Target
+			customKey := "custom-" + result.Target
 			if _, exists := targetMap[customKey]; !exists {
 				targetMap[customKey] = &GroupedTrivyResult{
 					SchemaVersion:   input.SchemaVersion,
