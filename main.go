@@ -72,19 +72,7 @@ func main() {
 		return
 	}
 
-	// 기본 모드: Code 필드 제거
-	if config.RemoveCode {
-		result := processor.Filter(data)
-
-		outputSize, err := io.WriteFile(config.OutputFile, result, config.Pretty)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-			os.Exit(1)
-		}
-
-		fmt.Printf("Output: %s (%.2f MB)\n", config.OutputFile, outputSize)
-		reduction := ((inputSize - outputSize) / inputSize) * 100
-		fmt.Printf("Size reduction: %.1f%% (%.2f MB -> %.2f MB)\n",
-			reduction, inputSize, outputSize)
-	}
+	// 모드가 지정되지 않은 경우 에러
+	fmt.Fprintf(os.Stderr, "Error: Please specify either -excel or -preprocess mode\n")
+	os.Exit(1)
 }
